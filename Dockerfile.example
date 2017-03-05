@@ -1,0 +1,5 @@
+FROM probablyfine/flume
+ADD example.conf /var/tmp/flume.conf
+
+EXPOSE 44444
+
