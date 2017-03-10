@@ -4,7 +4,11 @@
 
 ## Build Instructions
 
-    docker build -t flume .
+### Pull dependencies into container
+ * this done with maven (see pom.xml) 
+ * execute `mvn dependency:copy-dependencies` and mvn will copy deps into `target/depedency`
+ * to build example: docker build -f Dockerfile.example -t flume:example .
+ * to build flume agent: docker build -t flume . 
 
 ## Available environment variables
 
@@ -20,8 +24,8 @@
 
 ### and to run
 
-   ` docker run -d \
-      -e FLUME_AGENT_NAME=a1 \
-      -e FLUME_CONF_FILE=/var/tmp/flume.conf \
-      -p 44444:44444 \
-      flume:example`
+` docker run -d \
+   -e FLUME_AGENT_NAME=a1 \
+   -e FLUME_CONF_FILE=/var/tmp/flume.conf \
+   -p 44444:44444 \
+   flume:example`
