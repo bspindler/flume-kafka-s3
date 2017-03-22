@@ -20,6 +20,8 @@ RUN mv target/dependency/zookeeper-3.4.5.jar /opt/flume/lib/zookeeper-3.4.5.jar
 
 WORKDIR /opt/app
 
+COPY settings.xml /root/.m2/
+
 COPY pom.xml /opt/app
 RUN mvn dependency:copy-dependencies
 RUN mvn package
