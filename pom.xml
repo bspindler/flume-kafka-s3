@@ -51,5 +51,10 @@
             <artifactId>flume-ng-core</artifactId>
             <version>1.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.netuitive.phoenix</groupId>
+            <artifactId>birling</artifactId>
+            <version>0.1.0.00095</version>
+        </dependency>
     </dependencies>
 </project>
