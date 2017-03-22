@@ -35,7 +35,7 @@ WORKDIR /opt/app
 COPY . /opt/app
 RUN mvn clean package
 
-RUN mv target/*.jar /opt/flume/lib/
+RUN mv target/*jar-with-dependencies.jar /opt/flume/lib/
 
 ENV FLUME_CONF_FILE /opt/flume/kafka.conf
 ENV FLUME_AGENT_NAME kagent
