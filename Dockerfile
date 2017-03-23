@@ -39,3 +39,5 @@ RUN mv target/*jar-with-dependencies.jar /opt/flume/lib/
 
 ENV FLUME_CONF_FILE /opt/flume/kafka.conf
 ENV FLUME_AGENT_NAME kagent
+
+CMD /opt/java/bin/java -Xmx200m -Dflume.root.logger=INFO,console -cp '/opt/flume/conf:/opt/flume/lib/*:/lib/*' -Djava.library.path= org.apache.flume.node.Application -f /opt/flume/kafka.conf -n kagent
