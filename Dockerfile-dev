@@ -46,4 +46,16 @@ RUN mv /opt/app/flume/kafka.conf /opt/flume/kafka.conf \
   && apk del curl \
   && rm -rf /var/cache/apk/*
 
-CMD java -Xmx200m -Dflume.root.logger=INFO,console -cp '/opt/flume/conf:/opt/flume/lib/*:/lib/*' -Djava.library.path= org.apache.flume.node.Application -f /opt/flume/kafka.conf -n kagent
+ENV ZOOKEEPER_URL zookeeper
+
+ENV FILE_PREFIX flume-s3
+
+ENV AWS_ACCESS_KEY_ID accesskey
+ENV AWS_SECRET_ACCESS_KEY secretkey
+ENV AWS_BUCKET netuitive-bucket
+ENV AWS_BUCKET_FORMAT /%Y/%m/%d/%Hy
+
+CMD sed -i -e "s~kagent.sinks.s3.hdfs.path\ =\ .*~kagent.sinks.s3.hdfs.path\ =\ s3n://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@${AWS_BUCKET}${AWS_BUCKET_FORMAT}~g" /opt/flume/kafka.conf \
+  && sed -i -e "s/kagent.sinks.s3.hdfs.filePrefix\ =\ .*/kagent.sinks.s3.hdfs.filePrefix\ =\ ${FILE_PREFIX}/g" /opt/flume/kafka.conf \
+  && sed -i -e "s~kagent.sources.source1.zookeeperConnect\ =\ .*~kagent.sources.source1.zookeeperConnect\ =\ ${ZOOKEEPER_URL}~g" /opt/flume/kafka.conf \
+  && java -Xmx200m -Dflume.root.logger=INFO,console -cp '/opt/flume/conf:/opt/flume/lib/*:/lib/*' -Djava.library.path= org.apache.flume.node.Application -f /opt/flume/kafka.conf -n kagent
